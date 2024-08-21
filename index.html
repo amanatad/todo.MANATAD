@@ -1,15 +1,191 @@
-<title>To-Do List</title>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f4f4;
+}
 
+.header {
+  background-color: #4ca3af; 
+  padding: 20px;
+  color: rgb(14, 13, 13);
+  text-align: center;
+  border-bottom: 2px solid #38848e; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
+.header h2 {
+  margin: 0;
+  font-size: 24px;
+}
 
-<div class="container">
-    <h1>To-Do List</h1>
-    <div>
+input {
+  width: calc(100% - 110px);
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
 
-        <img decoding="async" src="more.png">
-        &lt;!--you can use the below line code if you would not used the same image
-        <button>Add</button>
-        --&gt;
-    </div>
-    <ul id="taskList"></ul>
+.addBtn {
+  width: 100px;
+  padding: 10px;
+  margin-left: 10px;
+  background: #020202;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.addBtn:hover {
+  background-color: #008cff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+ul {
+  margin: 20px auto;
+  padding: 0;
+  max-width: 600px;
+  list-style: none;
+}
+
+li {
+  padding: 15px;
+  margin: 5px 0;
+  background: #ffffff;
+  font-size: 18px;
+  position: relative;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+li:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+li:hover {
+  background: #f1f1f1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+li.checked {
+  background: #009688; /* Teal background */
+  color: #ffffff;
+  text-decoration: line-through;
+}
+
+li.checked::before {
+  content: '\u2714'; /* Check mark */
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.close, .edit {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.close {
+  color: #888;
+}
+
+.close:hover {
+  color: #f44336; /* Red color on hover */
+}
+
+.edit {
+  right: 50px; /* Position edit button */
+  color: #2196F3; /* Blue color */
+}
+
+.edit:hover {
+  color: #0b79d0; /* Darker blue on hover */
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h2>TO DO LIST</h2>
+  <input type="text" id="myInput" placeholder="ADD TASK...">
+  <button onclick="newElement()" class="addBtn">Add</button>
 </div>
+
+<ul id="myUL">
+  <li>PRAYER<span class="edit" onclick="editItem(this)">✎</span><span class="close" onclick="removeItem(this)">×</span></li>
+  <li class="checked">BREAKFAST<span class="edit" onclick="editItem(this)">✎</span><span class="close" onclick="removeItem(this)">×</span></li>
+  <li>HOUSE CHORES<span class="edit" onclick="editItem(this)">✎</span><span class="close" onclick="removeItem(this)">×</span></li>
+  <li>READ A BOOK<span class="edit" onclick="editItem(this)">✎</span><span class="close" onclick="removeItem(this)">×</span></li>
+  <li>TAKE A NAP<span class="edit" onclick="editItem(this)">✎</span><span class="close" onclick="removeItem(this)">×</span></li>
+</ul>
+
+<script>
+// Function to handle the close button click
+function removeItem(element) {
+  element.parentElement.style.display = 'none';
+}
+
+// Function to handle the edit button click
+function editItem(element) {
+  var li = element.parentElement;
+  var newTitle = prompt("Edit item:", li.firstChild.textContent.trim());
+  if (newTitle !== null && newTitle.trim() !== '') {
+    li.firstChild.textContent = newTitle;
+  }
+}
+
+// Function to add a new list item
+function newElement() {
+  var inputValue = document.getElementById("myInput").value.trim();
+  if (inputValue === '') {
+    alert("You must write something!");
+    return;
+  }
+
+  var li = document.createElement("li");
+  li.textContent = inputValue;
+
+  var editSpan = document.createElement("SPAN");
+  editSpan.textContent = "✎";
+  editSpan.className = "edit";
+  editSpan.onclick = function() { editItem(this); };
+
+  var closeSpan = document.createElement("SPAN");
+  closeSpan.textContent = "×";
+  closeSpan.className = "close";
+  closeSpan.onclick = function() { removeItem(this); };
+
+  li.appendChild(editSpan);
+  li.appendChild(closeSpan);
+  document.getElementById("myUL").appendChild(li);
+  document.getElementById("myInput").value = "";
+}
+
+// Add click event listener to toggle the checked state
+document.getElementById('myUL').addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+  }
+});
+</script>
+
+</body>
+</html>
