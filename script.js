@@ -1,27 +1,29 @@
-import "./styles.css"; 
- 
- document.querySelector('#push').onclick = function(){
-    if(document.querySelector('#newtask input').value.length == 0){
-        alert("Kindly Enter Task Name!!!!")
-    }
+console.log( 'Code is Poetry' );function addTask() {
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
 
-    else{
-        document.querySelector('#tasks').innerHTML += `
-            <div class="task">
-                <span id="taskname">
-                    ${document.querySelector('#newtask input').value}
-                </span>
-                <button class="delete">
-                    <i class="far fa-trash-alt"></i>
-                </button>
-            </div>
-        `;
+    if (taskInput.value.trim() !== '') {
+        const task = document.createElement('li');
+        task.innerText = taskInput.value;
 
-        var current_tasks = document.querySelectorAll(".delete");
-        for(var i=0; i<current_tasks.length; i++){
-            current_tasks[i].onclick = function(){
-                this.parentNode.remove();
-            }
-        }
+        // Add a button to mark task as complete
+        const completeButton = document.createElement('button');
+        completeButton.innerText = 'Complete';
+        completeButton.onclick = function() {
+            task.classList.toggle('completed');
+        };
+
+        // Add a button to delete task
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.onclick = function() {
+            task.remove();
+        };
+
+        task.appendChild(completeButton);
+        task.appendChild(deleteButton);
+
+        taskList.appendChild(task);
+        taskInput.value = ''; // Clear the input field
     }
 }
